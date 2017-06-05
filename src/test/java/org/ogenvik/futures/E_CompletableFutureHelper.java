@@ -46,6 +46,7 @@ public class E_CompletableFutureHelper {
 
         future.thenAccept(Util::println).join();
     }
+
     @Test
     public void testSupplyWithDelay() {
         CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> {
@@ -63,5 +64,28 @@ public class E_CompletableFutureHelper {
         });
 
         future.thenAccept(Util::println).join();
+    }
+
+    @Test
+    public void testWhenAll() {
+        CompletableFuture<String> future1 = getStuff().thenApplyAsync(s -> {
+            Util.println(s);
+            return s;
+        });
+
+        CompletableFuture<String> future2 = getStuff().thenApply(s -> {
+            Util.println(s);
+            return s;
+        });
+
+        CompletableFuture<String> future3 = getStuff().thenApply(s -> {
+            Util.println(s);
+            return s;
+        });
+
+
+        //Wait until all have completed
+        CompletableFuture<Void> allOf = CompletableFuture.allOf(future1, future2, future3);
+        allOf.join();
     }
 }

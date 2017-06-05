@@ -27,7 +27,7 @@ public class C_CompletableFutureHandle {
     public void testFutureWhenComplete() {
         CompletableFuture<String> future = getStuff();
         future.whenComplete((s, throwable) -> {
-            if (throwable != null) {
+            if (throwable == null) {
                 println(s);
             } else {
                 //Do some exception handling
@@ -39,7 +39,7 @@ public class C_CompletableFutureHandle {
     public void testFutureHandle() {
         CompletableFuture<String> future = getStuff();
         future.handle((s, throwable) -> {
-            if (throwable != null) {
+            if (throwable == null) {
                 return s.length();
             } else {
                 //Do some exception handling

@@ -15,7 +15,12 @@ public class B_CompletableFutureBasic {
         CompletableFuture<String> future = new CompletableFuture<>();
 
         new Thread(() -> {
-                future.complete("This is the future!");
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            future.complete("This is the future!");
         }).start();
 
         return future;
@@ -28,9 +33,13 @@ public class B_CompletableFutureBasic {
     }
 
     @Test
-    public void testFutureApply() {
+    public void testFutureApply() throws InterruptedException {
         CompletableFuture<String> future = getStuff();
-        future.thenApply(String::length).thenAccept(Util::println).join();
+        CompletableFuture<Integer> future2 = future.thenApply(String::length);
+        future2.thenAccept(Util::println);
+        Util.println("wee");
+
+        Thread.sleep(2000);
     }
 
     CompletableFuture<String> getExceptionalStuff() {
